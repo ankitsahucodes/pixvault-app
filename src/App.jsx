@@ -6,7 +6,7 @@ function App() {
   return (
     <>
     <div>
-      <h1>PixVault</h1>
+      <h1 className="bg-amber-300">PixVault</h1>
     </div>
     </>
   )
