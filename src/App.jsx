@@ -1,4 +1,5 @@
-
+import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
 
 function App() {
   
@@ -6,7 +7,8 @@ function App() {
   return (
     <>
     <div>
-      <h1 className="bg-amber-300">PixVault</h1>
+      <Header />
+      <Outlet />
     </div>
     </>
   )

@@ -1,12 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Header() {
   return (
   <nav className="navbar navbar-expand-lg bg-white border-bottom">
   <div className="container-fluid d-flex justify-content-between align-items-center">
-    <a className="navbar-brand fw-bold text-primary" href="#">
+    <Link className="navbar-brand fw-bold text-primary" to="/">
       PixVault
-    </a>
+    </Link>
 
     <button
       className="navbar-toggler"
@@ -21,13 +22,13 @@ function Header() {
 
       <ul className="navbar-nav mx-auto">
         <li className="nav-item">
-          <a className="nav-link" href="#">Albums</a>
+          <Link className="nav-link" to="/albums">Albums</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Images</a>
+          <Link className="nav-link" to="/images">Images</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Favourites</a>
+          <Link className="nav-link" to="/favouites">Favourites</Link>
         </li>
       </ul>
 

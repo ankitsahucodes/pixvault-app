@@ -9,7 +9,10 @@ import LandingPage from "./pages/LandingPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
+    element: <App />,
+    children: [
+      { index: true, element: <LandingPage /> },
+    ],
   },
 ]);
 
