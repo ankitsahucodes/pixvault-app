@@ -1,60 +1,18 @@
-import { FaHeart } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading.jsx";
 import ErrorMsg from "../components/ErrorMsg.jsx";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { useImageContext } from "../context/ImageContext.jsx";
+import { Link } from "react-router-dom";
 
 function Favourites() {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+    const { loadFavorites, toggleFavorite, loading, error, favImages } = useImageContext()
+ 
 
   const navigate = useNavigate();
-
-  const loadFavorites = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/favorites`,
-        {
-          withCredentials: true,
-        },
-      );
-
-      setImages(response.data);
-    } catch (err) {
-      console.error(err);
-
-      setError("Failed to load favorites");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const toggleFavorite = async (imageId) => {
-    try {
-      const response = await axios.patch(
-        `${import.meta.env.VITE_SERVER_BASE_URL}/images/${imageId}/favorite`,
-        {},
-        {
-          withCredentials: true,
-        },
-      );
-
-      if (response.data.isFavorite) {
-        toast.success("Added to favorites");
-      } else {
-        toast.info("Removed from favorites");
-      }
-
-      loadFavorites();
-    } catch (err) {
-      console.error(err);
-
-      toast.error("Failed to update favorite");
-    }
-  };
+  // console.log(favImages)
 
   useEffect(() => {
     loadFavorites();
@@ -79,7 +37,7 @@ function Favourites() {
       </div>
 
       {/* Empty State */}
-      {images.length === 0 ? (
+      {favImages.length === 0 ? (
         <div
           className="d-flex flex-column align-items-center justify-content-center"
           style={{ minHeight: "50vh" }}
@@ -99,7 +57,7 @@ function Favourites() {
         </div>
       ) : (
         <div className="row">
-          {images.map((image) => (
+          {favImages.map((image) => (
             <div key={image._id} className="col-md-4 mb-4">
               <div className="card shadow-sm border-0 h-100 image-card position-relative">
                 <div>
@@ -116,6 +74,7 @@ function Favourites() {
                   </button>
 
                   {/* Image */}
+                  <Link to={`/images/${image._id}`}>
                   <img
                     src={image.url}
                     alt={image.name}
@@ -125,6 +84,7 @@ function Favourites() {
                       objectFit: "cover",
                     }}
                   />
+                  </Link>
                 </div>
 
                 {/* Body */}

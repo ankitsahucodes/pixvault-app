@@ -8,6 +8,9 @@ import LandingPage from "./pages/LandingPage.jsx";
 import Albums from "./pages/Albums.jsx";
 import Favourites from "./pages/Favourites.jsx";
 import AlbumDetails from "./pages/AlbumDetails.jsx";
+import Images from "./pages/Images.jsx";
+import { ImageProvider } from "./context/ImageContext.jsx";
+import ImageDetails from "./pages/ImageDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,14 +19,18 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <LandingPage /> },
       { path: "/albums", element: <Albums /> },
+      { path: "/images", element: <Images /> },
       { path: "/favourites", element: <Favourites /> },
       { path: "/albums/:albumId", element: <AlbumDetails /> },
+      { path: "/images/:imageId", element: <ImageDetails /> },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <ImageProvider>
+      <RouterProvider router={router} />
+    </ImageProvider>
   </StrictMode>,
 );

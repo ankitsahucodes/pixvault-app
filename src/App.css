@@ -38,3 +38,14 @@
 .image-card:hover .image-preview {
   transform: scale(1.08);
 }
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 10%;
+}
+
+@media (max-width: 768px) {
+  .carousel-item img {
+    max-height: 65vh;
+  }
+}

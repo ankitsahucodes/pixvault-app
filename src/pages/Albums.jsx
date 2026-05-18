@@ -27,7 +27,7 @@ function Albums() {
           withCredentials: true,
         },
       );
-      console.log("Albums loaded:", response.data);
+    //   console.log("Albums loaded:", response.data);
       setAlbums(response.data);
     } catch (err) {
       console.error("Failed to load albums:", err);

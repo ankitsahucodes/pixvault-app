@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { FaImages } from "react-icons/fa";
 import Loading from "../components/Loading.jsx";
 import ErrorMsg from "../components/ErrorMsg.jsx";
 import UploadImageModal from "../components/UploadImageModal.jsx";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { useImageContext } from "../context/ImageContext.jsx";
 
 function AlbumDetails() {
   const [images, setImages] = useState([]);
+  const [album, setAlbum] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const { albumId } = useParams();
+
+  const { toggleFavorite } = useImageContext();
 
   const loadImages = async () => {
     try {
@@ -21,7 +24,9 @@ function AlbumDetails() {
         `${import.meta.env.VITE_SERVER_BASE_URL}/albums/${albumId}/images`,
         { withCredentials: true },
       );
-      setImages(response.data);
+      //   console.log(response)
+      setImages(response.data.images);
+      setAlbum(response.data.album);
     } catch (err) {
       console.error("Failed to load images:", err);
       setError("Failed to load images");
@@ -33,35 +38,6 @@ function AlbumDetails() {
   useEffect(() => {
     loadImages();
   }, [albumId]);
-
-  const toggleFavorite = async (imageId) => {
-  try {
-
-    const response = await axios.patch(
-      `${import.meta.env.VITE_SERVER_BASE_URL}/images/${imageId}/favorite`,
-      {},
-      {
-        withCredentials: true,
-      }
-    );
-
-    if (response.data.isFavorite) {
-      toast.success("Added to favorites");
-    } else {
-      toast.info("Removed from favorites");
-    }
-
-    loadImages();
-
-  } catch (err) {
-
-    console.error(
-      "Failed to update favorite:",
-      err
-    );
-    toast.error("Failed to update favorite");
-  }
-};
 
   if (loading) {
     return <Loading />;
@@ -83,6 +59,14 @@ function AlbumDetails() {
             + Upload Image
           </button>
         )}
+      </div>
+
+      <div className="mb-4">
+        <h2 className="fw-bold mb-1">{album?.name}</h2>
+
+        <p className="text-muted">
+          {images.length} {images.length === 1 ? "photo" : "photos"}
+        </p>
       </div>
 
       {/* Empty State */}
@@ -114,7 +98,10 @@ function AlbumDetails() {
                   {/* Heart */}
                   <button
                     className="btn position-absolute top-0 end-0 m-2 bg-white rounded-circle shadow-sm z-1"
-                    onClick={() => toggleFavorite(image._id)}
+                    onClick={async () => {
+                      await toggleFavorite(image._id);
+                      loadImages();
+                    }}
                   >
                     {image.isFavorite ? (
                       <FaHeart className="text-danger" />
@@ -124,15 +111,17 @@ function AlbumDetails() {
                   </button>
 
                   {/* Image */}
-                  <img
-                    src={image.url}
-                    alt={image.name}
-                    className="card-img-top image-preview"
-                    style={{
-                      height: "250px",
-                      objectFit: "cover",
-                    }}
-                  />
+                  <Link to={`/images/${image._id}`}>
+                    <img
+                      src={image.url}
+                      alt={image.name}
+                      className="card-img-top image-preview"
+                      style={{
+                        height: "250px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </Link>
                 </div>
 
                 {/* Body */}
