@@ -8,6 +8,7 @@ import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
@@ -19,21 +20,24 @@ function App() {
       })
       .catch(() => {
         setUser(null);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
   return (
     <>
-      <div>
-        <Header user={user} setUser={setUser} />
-        <Outlet context={{ user }} />
-        <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          hideProgressBar={false}
-          theme="dark"
-        />
-      </div>
+      <Header user={user} setUser={setUser} />
+
+      <Outlet context={{ user, loading }} />
+
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        theme="dark"
+      />
     </>
   );
 }
