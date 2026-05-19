@@ -18,7 +18,7 @@ function Header({ user, setUser }) {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/logout`, {
+      await axios.post(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/logout`, {}, {
         withCredentials: true,
       });
       console.log("logout route hit");
