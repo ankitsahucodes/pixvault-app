@@ -11,6 +11,7 @@ import AlbumDetails from "./pages/AlbumDetails.jsx";
 import Images from "./pages/Images.jsx";
 import { ImageProvider } from "./context/ImageContext.jsx";
 import ImageDetails from "./pages/ImageDetails.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,11 +19,54 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <LandingPage /> },
-      { path: "/albums", element: <Albums /> },
-      { path: "/images", element: <Images /> },
-      { path: "/favourites", element: <Favourites /> },
-      { path: "/albums/:albumId", element: <AlbumDetails /> },
-      { path: "/images/:imageId", element: <ImageDetails /> },
+      {
+        path: "/albums",
+
+        element: (
+          <ProtectedRoute>
+            <Albums />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/images",
+
+        element: (
+          <ProtectedRoute>
+            <Images />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/favourites",
+
+        element: (
+          <ProtectedRoute>
+            <Favourites />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/albums/:albumId",
+
+        element: (
+          <ProtectedRoute>
+            <AlbumDetails />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "/images/:imageId",
+
+        element: (
+          <ProtectedRoute>
+            <ImageDetails />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);

@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/auth/me", {
+      .get(`${import.meta.env.VITE_SERVER_BASE_URL}/auth/me`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -26,7 +26,7 @@ function App() {
     <>
       <div>
         <Header user={user} setUser={setUser} />
-        <Outlet />
+        <Outlet context={{ user }} />
         <ToastContainer
           position="top-center"
           autoClose={1000}

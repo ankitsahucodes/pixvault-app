@@ -14,12 +14,9 @@ export function ImageProvider({ children }) {
 
   const loadFavorites = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/favorites`,
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await axios.get(`${BASE_URL}/favorites`, {
+        withCredentials: true,
+      });
 
       setFavImages(response.data);
     } catch (err) {
@@ -55,11 +52,17 @@ export function ImageProvider({ children }) {
     }
   };
 
-  
-
-
   return (
-    <ImageContext.Provider value={{ toggleFavorite, loadFavorites, favImages, setFavImages, loading, error }}>
+    <ImageContext.Provider
+      value={{
+        toggleFavorite,
+        loadFavorites,
+        favImages,
+        setFavImages,
+        loading,
+        error,
+      }}
+    >
       {children}
     </ImageContext.Provider>
   );

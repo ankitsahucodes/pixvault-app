@@ -17,6 +17,7 @@ function ImageDetails() {
   const [person, setPerson] = useState("");
   const [tagInput, setTagInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [albumImages, setAlbumImages] = useState([]);
 
   const loadImage = async () => {
     try {
@@ -30,6 +31,15 @@ function ImageDetails() {
       setImage(response.data);
 
       setPerson(response.data.person || "");
+
+      const imagesResponse = await axios.get(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/albums/${response.data.album._id}/images`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      setAlbumImages(imagesResponse.data.images);
     } catch (err) {
       console.error(err);
 
@@ -42,6 +52,15 @@ function ImageDetails() {
   useEffect(() => {
     loadImage();
   }, [imageId]);
+
+  const currentIndex = albumImages.findIndex((img) => img._id === imageId);
+
+  const prevImage = currentIndex > 0 ? albumImages[currentIndex - 1] : null;
+
+  const nextImage =
+    currentIndex < albumImages.length - 1
+      ? albumImages[currentIndex + 1]
+      : null;
 
   const updateImage = async (updatedData) => {
     try {
@@ -89,32 +108,25 @@ function ImageDetails() {
   };
 
   const deleteImage = async () => {
-  try {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/images/${imageId}`,
+        {
+          withCredentials: true,
+        },
+      );
 
-    await axios.delete(
-      `${import.meta.env.VITE_SERVER_BASE_URL}/images/${imageId}`,
-      {
-        withCredentials: true,
-      }
-    );
+      toast.success("Image deleted successfully");
 
-    toast.success(
-      "Image deleted successfully"
-    );
+      setShowDeleteModal(false);
 
-    setShowDeleteModal(false);
+      navigate(-1);
+    } catch (err) {
+      console.error(err);
 
-    navigate(-1);
-
-  } catch (err) {
-
-    console.error(err);
-
-    toast.error(
-      "Failed to delete image"
-    );
-  }
-};
+      toast.error("Failed to delete image");
+    }
+  };
 
   if (loading) {
     return <Loading />;
@@ -127,15 +139,52 @@ function ImageDetails() {
   return (
     <div className="bg-light min-vh-100">
       <div className="container py-4">
-        <button className="btn btn-primary mb-3 pe-3" onClick={() => navigate(-1)}>
-        ← Back 
+        <button
+          className="btn btn-primary mb-3 pe-3"
+          onClick={() => navigate(-1)}
+        >
+          ← Back
         </button>
 
         <div className="row g-3">
           {/* LEFT */}
           <div className="col-lg-8">
             {/* IMAGE */}
-            <div className="card border-0 shadow-sm p-2">
+            <div className="card border-0 shadow-sm p-2 position-relative overflow-hidden">
+              {/* NAV BUTTONS */}
+              <div className="position-absolute top-50 start-0 end-0 translate-middle-y px-3 d-flex justify-content-between z-1">
+                {/* PREV */}
+                {prevImage ? (
+                  <button
+                    className="btn btn-light border shadow-sm rounded-circle d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                    }}
+                    onClick={() => navigate(`/images/${prevImage._id}`)}
+                  >
+                    ‹
+                  </button>
+                ) : (
+                  <div></div>
+                )}
+
+                {/* NEXT */}
+                {nextImage && (
+                  <button
+                    className="btn btn-light border shadow-sm rounded-circle d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                    }}
+                    onClick={() => navigate(`/images/${nextImage._id}`)}
+                  >
+                    ›
+                  </button>
+                )}
+              </div>
+
+              {/* IMAGE */}
               <img
                 src={image.url}
                 alt={image.name}
@@ -333,10 +382,10 @@ function ImageDetails() {
         </div>
       </div>
       <DeleteImageModal
-  showDeleteModal={showDeleteModal}
-  setShowDeleteModal={setShowDeleteModal}
-  onDelete={deleteImage}
-/>
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
+        onDelete={deleteImage}
+      />
     </div>
   );
 }

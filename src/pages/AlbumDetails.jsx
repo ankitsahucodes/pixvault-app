@@ -69,7 +69,6 @@ function AlbumDetails() {
         </p>
       </div>
 
-      {/* Empty State */}
       {images.length === 0 ? (
         <div
           className="d-flex flex-column align-items-center justify-content-center"
@@ -95,7 +94,6 @@ function AlbumDetails() {
             <div key={image._id} className="col-md-6 col-12 col-lg-4 mb-4">
               <div className="card shadow-sm border-0 h-100 image-card position-relative">
                 <div>
-                  {/* Heart */}
                   <button
                     className="btn position-absolute top-0 end-0 m-2 bg-white rounded-circle shadow-sm z-1"
                     onClick={async () => {
@@ -110,7 +108,6 @@ function AlbumDetails() {
                     )}
                   </button>
 
-                  {/* Image */}
                   <Link to={`/images/${image._id}`}>
                     <img
                       src={image.url}
@@ -124,7 +121,6 @@ function AlbumDetails() {
                   </Link>
                 </div>
 
-                {/* Body */}
                 <div className="card-body">
                   <h6 className="fw-bold mb-1">{image.name}</h6>
 

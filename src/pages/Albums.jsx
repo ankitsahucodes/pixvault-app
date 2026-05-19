@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaFolder } from "react-icons/fa";
-import { BsThreeDotsVertical, BsTrash, BsShare } from "react-icons/bs";
+import { BsThreeDotsVertical, BsTrash } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import Loading from "../components/Loading.jsx";
@@ -27,7 +27,7 @@ function Albums() {
           withCredentials: true,
         },
       );
-    //   console.log("Albums loaded:", response.data);
+      //   console.log("Albums loaded:", response.data);
       setAlbums(response.data);
     } catch (err) {
       console.error("Failed to load albums:", err);
@@ -88,12 +88,6 @@ function Albums() {
 
                   <ul className="dropdown-menu">
                     <li>
-                      <button className="dropdown-item">
-                        <BsShare size={15} /> Share
-                      </button>
-                    </li>
-
-                    <li>
                       <button
                         className="dropdown-item"
                         onClick={() => {
@@ -114,7 +108,7 @@ function Albums() {
                           setShowDeleteModal(true);
                         }}
                       >
-                        <BsTrash className="mb-1"/> Delete
+                        <BsTrash className="mb-1" /> Delete
                       </button>
                     </li>
                   </ul>

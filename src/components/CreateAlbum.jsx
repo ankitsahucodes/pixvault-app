@@ -13,13 +13,12 @@ const CreateAlbum = ({
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
- const handleClose = () => {
+  const handleClose = () => {
+    setShowCreateModal(false);
 
-  setShowCreateModal(false);
-
-  setName("");
-  setDescription("");
-};
+    setName("");
+    setDescription("");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

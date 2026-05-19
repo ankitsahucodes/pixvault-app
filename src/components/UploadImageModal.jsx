@@ -7,7 +7,6 @@ function UploadImageModal({
   albumId,
   onUploaded,
 }) {
-
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +21,6 @@ function UploadImageModal({
     if (!selectedFile) return;
 
     try {
-
       setLoading(true);
 
       const formData = new FormData();
@@ -37,19 +35,15 @@ function UploadImageModal({
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       handleClose();
 
       onUploaded && onUploaded();
-
     } catch (err) {
-
       console.error("Failed to upload image:", err);
-
     } finally {
-
       setLoading(false);
     }
   };
@@ -61,38 +55,26 @@ function UploadImageModal({
       <div className="modal fade show d-block" tabIndex="-1">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
-
             {/* Header */}
             <div className="modal-header">
-              <h5 className="modal-title">
-                Upload Image
-              </h5>
+              <h5 className="modal-title">Upload Image</h5>
 
-              <button
-                className="btn-close"
-                onClick={handleClose}
-              ></button>
+              <button className="btn-close" onClick={handleClose}></button>
             </div>
 
             {/* Body */}
             <form onSubmit={handleUpload}>
-
               <div className="modal-body">
-
                 <input
                   type="file"
                   className="form-control"
-                  onChange={(e) =>
-                    setSelectedFile(e.target.files[0])
-                  }
+                  onChange={(e) => setSelectedFile(e.target.files[0])}
                   required
                 />
-
               </div>
 
               {/* Footer */}
               <div className="modal-footer">
-
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -106,15 +88,10 @@ function UploadImageModal({
                   className="btn btn-primary"
                   disabled={loading}
                 >
-                  {loading
-                    ? "Uploading..."
-                    : "Upload"}
+                  {loading ? "Uploading..." : "Upload"}
                 </button>
-
               </div>
-
             </form>
-
           </div>
         </div>
       </div>

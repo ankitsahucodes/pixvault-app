@@ -48,14 +48,12 @@ function Images() {
 
   return (
     <div className="container mt-4">
-      {/* Heading */}
       <div className="d-flex align-items-center mb-4">
         <h2 className="fw-bold mb-0">All Images</h2>
 
         <FaImages className="ms-2" size={24} />
       </div>
 
-      {/* Empty State */}
       {images.length === 0 ? (
         <div
           className="d-flex flex-column align-items-center justify-content-center"
@@ -73,7 +71,6 @@ function Images() {
             <div key={image._id} className="col-md-4 mb-4">
               <div className="card shadow-sm border-0 h-100 image-card position-relative">
                 <div>
-                  {/* Heart */}
                   <button
                     className="btn position-absolute top-0 end-0 m-2 bg-white rounded-circle shadow-sm z-1"
                     onClick={async () => {
@@ -88,7 +85,6 @@ function Images() {
                     )}
                   </button>
 
-                  {/* Image */}
                   <img
                     src={image.url}
                     alt={image.name}
