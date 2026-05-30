@@ -198,14 +198,14 @@ function ImageDetails() {
 
             {/* DETAILS */}
             <div className="card border-0 shadow-sm p-4 mt-3">
-              <div className="d-flex justify-content-between align-items-start mb-4">
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
                 <div>
                   <h3 className="fw-bold mb-1">{image.name}</h3>
 
                   <p className="text-muted mb-0">{image.album?.name}</p>
                 </div>
 
-                <div className="d-flex gap-2">
+                <div className="d-flex flex-wrap gap-2">
                   {image.isFavorite && (
                     <span className="badge bg-light text-dark border px-3 py-2">
                       ❤️ Favorite
