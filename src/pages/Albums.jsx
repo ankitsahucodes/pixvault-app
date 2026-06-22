@@ -18,6 +18,7 @@ function Albums() {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [editAlbum, setEditAlbum] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const loadAlbums = async () => {
     try {
@@ -48,6 +49,10 @@ function Albums() {
     return <ErrorMsg error={error} />;
   }
 
+  const filteredAlbums = albums.filter((album) =>
+    album.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   return (
     <div>
       <div className="container mt-4">
@@ -72,9 +77,19 @@ function Albums() {
         </span>
       </div>
 
+      <div className="container mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search albums..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <div className="container mt-4">
         <div className="row">
-          {albums.map((album) => (
+          {filteredAlbums.map((album) => (
             <div key={album._id} className="col-md-4 mb-4">
               <div className="album-card p-3 rounded-3 position-relative">
                 {/* 3 dots menu */}
@@ -157,6 +172,10 @@ function Albums() {
           </div>
         )}
       </div>
+
+      {filteredAlbums.length === 0 && searchTerm && (
+        <p className="text-muted">No albums found.</p>
+      )}
       <CreateAlbum
         showCreateModal={showCreateModal}
         setShowCreateModal={setShowCreateModal}
