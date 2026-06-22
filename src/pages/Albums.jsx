@@ -54,8 +54,8 @@ function Albums() {
   );
 
   return (
-    <div>
-      <div className="container mt-4">
+    <div className="container">
+      <div className="mt-4">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <h1 className="fw-bold">Albums</h1>
           {albums.length > 0 && (
