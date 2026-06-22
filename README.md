@@ -56,6 +56,7 @@ Watch a 4 minutes walkthrough of all major features of this app:<br>
 ### Album Management
 
 * Create new albums
+* Search albums by name
 * View all personal albums
 * Update album details
 * Delete albums
