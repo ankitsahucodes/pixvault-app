@@ -71,20 +71,23 @@ function Albums() {
             </button>
           )}
         </div>
-        <span className="text-muted">
-          {albums?.length > 0 &&
-            `${albums?.length} ${albums?.length === 1 ? "album" : "albums"}`}{" "}
-        </span>
       </div>
 
-      <div className="container mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search albums..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <span className="text-muted">
+          {albums.length} {albums.length === 1 ? "album" : "albums"}
+        </span>
+
+        {albums.length > 0 && (
+          <input
+            type="text"
+            className="form-control"
+            placeholder="🔍 Search albums..."
+            style={{ maxWidth: "300px" }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        )}
       </div>
 
       <div className="container mt-4">
@@ -174,7 +177,10 @@ function Albums() {
       </div>
 
       {filteredAlbums.length === 0 && searchTerm && (
-        <p className="text-muted">No albums found.</p>
+        <div className="text-center mt-5">
+          <h5 className="text-muted">No albums found</h5>
+          <p className="text-secondary">Try searching with a different name.</p>
+        </div>
       )}
       <CreateAlbum
         showCreateModal={showCreateModal}
